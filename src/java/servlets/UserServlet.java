@@ -1,9 +1,10 @@
 package servlets;
 
 import services.UserService;
-import models.User;
+import models.Users;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,22 +17,22 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         UserService us = new UserService();
         String action = request.getParameter("action");
         if (action != null && action.equals("view")) {
             String selectedUsername = request.getParameter("selectedUsername");
             try {
-                User user = us.get(selectedUsername);
+                Users user = us.get(selectedUsername);
                 request.setAttribute("selectedUser", user);
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        ArrayList<User> users = null;        
+
+        List<Users> users = null;
         try {
-            users = (ArrayList<User>) us.getAll();
+            users = (List<Users>) us.getAll();
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,10 +65,10 @@ public class UserServlet extends HttpServlet {
         } catch (Exception ex) {
             request.setAttribute("errorMessage", "Whoops.  Could not perform that action.");
         }
-        
-        ArrayList<User> users = null;
+
+       List<Users> users = null;
         try {
-            users = (ArrayList<User>) us.getAll();
+            users = (List<Users>) us.getAll();
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
